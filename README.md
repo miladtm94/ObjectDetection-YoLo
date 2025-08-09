@@ -1,25 +1,13 @@
 # Autonomous Driving - Car Detection
 
-Welcome to the Week 3 programming assignment! In this notebook, you'll implement object detection using the very powerful YOLO model. Many of the ideas in this notebook are described in the two YOLO papers: [Redmon et al., 2016](https://arxiv.org/abs/1506.02640) and [Redmon and Farhadi, 2016](https://arxiv.org/abs/1612.08242). 
+In this notebook, we'll implement object detection using the very powerful YOLO model. Many of the ideas in this notebook are described in the two YOLO papers: [Redmon et al., 2016](https://arxiv.org/abs/1506.02640) and [Redmon and Farhadi, 2016](https://arxiv.org/abs/1612.08242). 
 
-**By the end of this assignment, you'll be able to**:
+**By the end of this assignment, we'll be able to**:
 
 - Detect objects in a car detection dataset
 - Implement non-max suppression to increase accuracy
 - Implement intersection over union
 - Handle bounding boxes, a type of image annotation popular in deep learning
-
-## Important Note on Submission to the AutoGrader
-
-Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:
-
-1. You have not added any _extra_ `print` statement(s) in the assignment.
-2. You have not added any _extra_ code cell(s) in the assignment.
-3. You have not changed any of the function parameters.
-4. You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.
-5. You are not changing the assignment code where it is not required, like creating _extra_ variables.
-
-If you do any of the following, you will get something like, `Grader not found` (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don't remember the changes you have made, you can get a fresh copy of the assignment by following these [instructions](https://www.coursera.org/learn/convolutional-neural-networks/supplement/DS4yP/h-ow-to-refresh-your-workspace).
 
 ## Table of Contents
 
@@ -726,23 +714,21 @@ def yolo_eval(yolo_outputs, image_shape = (720, 1280), max_boxes=10, score_thres
     classes -- tensor of shape (None,), predicted class for each box
     """
     
-     ### START CODE HERE
-    # Retrieve outputs of the YOLO model (≈1 line)
+    # Retrieve outputs of the YOLO model
     box_xy, box_wh, box_confidence, box_class_probs = yolo_outputs
     
     # Convert boxes to be ready for filtering functions (convert boxes box_xy and box_wh to corner coordinates)
     boxes = yolo_boxes_to_corners(box_xy, box_wh)
     
-    # Use one of the functions you've implemented to perform Score-filtering with a threshold of score_threshold (≈1 line)
+    # Use one of the functions you've implemented to perform Score-filtering with a threshold of score_threshold
     scores, boxes, classes = yolo_filter_boxes(boxes, box_confidence, box_class_probs, score_threshold)
     
-    # Scale boxes back to original image shape.
+    # Scale boxes back to the original image shape.
     boxes = scale_boxes(boxes, image_shape)
     
     # Use one of the functions you've implemented to perform Non-max suppression with 
-    # maximum number of boxes set to max_boxes and a threshold of iou_threshold (≈1 line)
+    # maximum number of boxes set to max_boxes and a threshold of iou_threshold
     scores, boxes, classes =  yolo_non_max_suppression(scores, boxes, classes, max_boxes, iou_threshold)
-    ### END CODE HERE
     
     return scores, boxes, classes
 ```
@@ -1274,18 +1260,12 @@ If you were to run your session in a for loop over all your images. Here's what 
     - Intersection over Union (IoU) thresholding to eliminate overlapping boxes
 - Because training a YOLO model from randomly initialized weights is non-trivial and requires a large dataset as well as lot of computation, previously trained model parameters were used in this exercise. If you wish, you can also try fine-tuning the YOLO model with your own dataset, though this would be a fairly non-trivial exercise. 
 
-**Congratulations!** You've come to the end of this assignment. 
-
-Here's a quick recap of all you've accomplished.
-
-You've: 
+Here's a quick recap of all we've accomplished:
 
 - Detected objects in a car detection dataset
 - Implemented non-max suppression to achieve better accuracy
 - Implemented intersection over union as a function of NMS
 - Created usable bounding box tensors from the model's predictions
-
-Amazing work! If you'd like to know more about the origins of these ideas, spend some time on the papers referenced below. 
 
 <a name='5'></a>
 ## 5 - References
