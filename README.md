@@ -222,28 +222,22 @@ def yolo_filter_boxes(boxes, box_confidence, box_class_probs, threshold = .6):
     For example, the actual output size of scores would be (10,) if there are 10 boxes.
     """
     
-    ### START CODE HERE
     # Step 1: Compute box scores
-    ##(≈ 1 line)
     box_scores = box_confidence *  box_class_probs
 
     # Step 2: Find the box_classes using the max box_scores, keep track of the corresponding score
-    ##(≈ 2 lines)
     # IMPORTANT: set axis to -1
     box_classes = tf.math.argmax(box_scores, axis=-1)
     box_class_scores = tf.math.reduce_max(box_scores, axis=-1, keepdims=False)
     
     # Step 3: Create a filtering mask based on "box_class_scores" by using "threshold". The mask should have the
     # same dimension as box_class_scores, and be True for the boxes you want to keep (with probability >= threshold)
-    ## (≈ 1 line)
     filtering_mask = box_class_scores >= threshold
     
     # Step 4: Apply the mask to box_class_scores, boxes and box_classes
-    ## (≈ 3 lines)
     scores = tf.boolean_mask(box_class_scores, filtering_mask)
     boxes = tf.boolean_mask(boxes, filtering_mask)
     classes = tf.boolean_mask(box_classes, filtering_mask)
-    ### END CODE HERE
     
     return scores, boxes, classes
 ```
@@ -397,9 +391,7 @@ def iou(box1, box2):
     (box1_x1, box1_y1, box1_x2, box1_y2) = box1
     (box2_x1, box2_y1, box2_x2, box2_y2) = box2
 
-   ### START CODE HERE
     # Calculate the (yi1, xi1, yi2, xi2) coordinates of the intersection of box1 and box2. Calculate its Area.
-    ##(≈ 7 lines)
     xi1 = np.maximum(box1_x1,box2_x1)
     yi1 = np.maximum(box1_y1,box2_y1)
     xi2 = np.minimum(box1_x2,box2_x2)
@@ -409,14 +401,12 @@ def iou(box1, box2):
     inter_area = np.maximum(inter_width, 0) * np.maximum(inter_height, 0) 
     
     # Calculate the Union area by using Formula: Union(A,B) = A + B - Inter(A,B)
-    ## (≈ 3 lines)
     box1_area = (box1_x2 - box1_x1) * (box1_y2 - box1_y1)
     box2_area = (box2_x2 - box2_x1) * (box2_y2 - box2_y1)
     union_area = box1_area +  box2_area -  inter_area
     
-    # compute the IoU
+    # Compute the IoU
     iou = inter_area/union_area
-    ### END CODE HERE
     
     return iou
 ```
@@ -532,17 +522,13 @@ def yolo_non_max_suppression(scores, boxes, classes, max_boxes = 10, iou_thresho
     
     max_boxes_tensor = tf.Variable(max_boxes, dtype='int32')     # tensor to be used in tf.image.non_max_suppression()
 
-    ### START CODE HERE
     # Use tf.image.non_max_suppression() to get the list of indices corresponding to boxes you keep
-    ##(≈ 1 line)
     nms_indices = tf.image.non_max_suppression(boxes, scores, max_boxes_tensor, iou_threshold)
     
     # Use tf.gather() to select only nms_indices from scores, boxes and classes
-    ##(≈ 3 lines)
     scores = tf.gather(scores,nms_indices)
     boxes = tf.gather(boxes,nms_indices)
     classes = tf.gather(classes,nms_indices)
-    ### END CODE HERE
 
     
     return scores, boxes, classes
