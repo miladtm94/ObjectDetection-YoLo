@@ -202,8 +202,6 @@ This is an example of **broadcasting** (multiplying vectors of different sizes).
 
 
 ```python
-# UNQ_C1 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)
-# GRADED FUNCTION: yolo_filter_boxes
 
 def yolo_filter_boxes(boxes, box_confidence, box_class_probs, threshold = .6):
     """Filters YOLO boxes by thresholding on object and class confidence.
@@ -387,9 +385,6 @@ Some hints:
 
 
 ```python
-# UNQ_C2 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)
-# GRADED FUNCTION: iou
-
 def iou(box1, box2):
     """Implement the intersection over union (IoU) between box1 and box2
     
@@ -514,8 +509,6 @@ keras.gather(
 
 
 ```python
-# UNQ_C3 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)
-# GRADED FUNCTION: yolo_non_max_suppression
 
 def yolo_non_max_suppression(scores, boxes, classes, max_boxes = 10, iou_threshold = 0.5):
     """
@@ -690,8 +683,6 @@ def yolo_boxes_to_corners(box_xy, box_wh):
 
 
 ```python
-# UNQ_C4 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)
-# GRADED FUNCTION: yolo_eval
 
 def yolo_eval(yolo_outputs, image_shape = (720, 1280), max_boxes=10, score_threshold=.6, iou_threshold=.5):
     """
